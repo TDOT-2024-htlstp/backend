@@ -6,6 +6,7 @@ import org.example.springbackend.repositories.OrderRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public record OrderService(OrderRepository repository) {
@@ -22,4 +23,12 @@ public record OrderService(OrderRepository repository) {
         return repository.getAllByStatus(Status.FINISHED);
     }
 
+    public List<Order> getAllOrders() {
+        return repository.findAll();
+    }
+
+    public Order updateStatus(UUID uuid, Order order) {
+        order.setId(uuid);
+        return repository.save(order);
+    }
 }
