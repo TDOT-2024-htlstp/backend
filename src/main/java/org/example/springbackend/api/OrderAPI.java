@@ -35,9 +35,9 @@ public record OrderAPI(OrderService orderService) {
         return orderService.getAllOrders();
     }
 
-    @PutMapping("{id}")
-    private Order updateStatus(@PathVariable UUID id, @RequestBody Order order) {
-        return orderService.updateStatus(id, order);
+    @PutMapping("")
+    private Order updateStatus(@RequestBody Order order) {
+        return orderService.updateStatus(order);
     }
 
 }

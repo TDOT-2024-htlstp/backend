@@ -27,8 +27,8 @@ public record OrderService(OrderRepository repository) {
         return repository.findAll();
     }
 
-    public Order updateStatus(UUID uuid, Order order) {
-        order.setId(uuid);
+    public Order updateStatus(Order order) {
+        order.setStatus(Status.READY);
         return repository.save(order);
     }
 }
