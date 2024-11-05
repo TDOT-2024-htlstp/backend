@@ -22,7 +22,7 @@ public class Order {
     @GeneratedValue
     private UUID id;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<ProductEntry> entries;
 
     @Enumerated(EnumType.STRING)
