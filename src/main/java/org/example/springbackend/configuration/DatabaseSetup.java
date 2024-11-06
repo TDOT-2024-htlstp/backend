@@ -16,23 +16,20 @@ public class DatabaseSetup {
 
     static List<Category> categories = List.of(new Category(null, "Bonbons"), new Category(null, "Schokolade"), new Category(null, "Lutscher"));
 
-
     @Bean
-    CommandLineRunner initCategories(CategoryRepository categoryRepository) {
-        return args -> categoryRepository.saveAll(categories);
-    }
-
-    @Bean
-    CommandLineRunner initProducts(ProductRepository productRepository) {
+    CommandLineRunner initOrders(CategoryRepository categoryRepository, OrderRepository orderRepository, ProductRepository productRepository) {
         return args -> {
-            productRepository.save(new Product(null, "Maoam", 500, 10, categories.getFirst()));
-            productRepository.save(new Product(null, "Milka", 100, 5, categories.get(1)));
-            productRepository.save(new Product(null, "Nimm2 Lutscher", 450, 20, categories.get(2)));
-        };
-    }
+            var cat = categoryRepository.saveAll(categories);
 
-    @Bean
-    CommandLineRunner initOrders(OrderRepository orderRepository) {
-        return args -> orderRepository.save(new Order(new UUID(1L,2L),null, Status.IN_PROGRESS));
+            var p1 = productRepository.save(new Product(null, "Maoam", 500, 10, cat.getFirst()));
+            var p2 = productRepository.save(new Product(null, "Milka", 100, 5, cat.get(1)));
+            productRepository.save(new Product(null, "Nimm2 Lutscher", 450, 20, cat.get(2)));
+
+            var pe = new ProductEntry(null, p1, 5);
+            var pe2 = new ProductEntry(null, p2, 4);
+
+            orderRepository.save(new Order(new UUID(1L, 2L), List.of(pe), Status.IN_PROGRESS));
+            orderRepository.save(new Order(new UUID(1L, 2L), List.of(pe, pe2), Status.IN_PROGRESS));
+        };
     }
 }

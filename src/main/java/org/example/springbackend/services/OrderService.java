@@ -27,8 +27,17 @@ public record OrderService(OrderRepository repository) {
         return repository.findAll();
     }
 
-    public Order updateStatus(UUID uuid, Order order) {
-        order.setId(uuid);
-        return repository.save(order);
+    public void nextStatus(UUID uuid) {
+        repository.findById(uuid).ifPresent(order -> {
+            switch (order.getStatus()) {
+                case IN_PROGRESS:
+                    order.setStatus(Status.READY);
+                    break;
+                case READY:
+                    order.setStatus(Status.FINISHED);
+                    break;
+                case FINISHED:
+            }
+        });
     }
 }

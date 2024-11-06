@@ -23,9 +23,6 @@ public class ProductEntry {
     @ManyToOne
     private Product product;
 
-    @ManyToOne
-    private Order order;
-
     @PositiveOrZero
     private int amount;
 
