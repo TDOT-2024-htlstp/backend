@@ -30,6 +30,9 @@ public class Product {
     @PositiveOrZero
     private int amountLeft;
 
+    @NotBlank
+    private String imagePath;
+
     @ManyToOne
     private Category category;
 

@@ -2,6 +2,7 @@ package org.example.springbackend.api;
 
 import org.example.springbackend.domain.Order;
 import org.example.springbackend.services.OrderService;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,6 +34,12 @@ public record OrderAPI(OrderService orderService) {
     @GetMapping("")
     private List<Order> getOrders() {
         return orderService.getAllOrders();
+    }
+
+    @PostMapping("/process")
+    public Order processOrder(@RequestBody Order order) {
+        orderService.processOrder(order);
+        return orderService.saveOrder(order);
     }
 
     @PutMapping("{id}")
