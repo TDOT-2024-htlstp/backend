@@ -9,6 +9,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/orders")
+@CrossOrigin(origins = "*")
 public record OrderAPI(OrderService orderService) {
 
     // get in progress orders
@@ -35,9 +36,9 @@ public record OrderAPI(OrderService orderService) {
     }
 
     @PutMapping("{id}")
-    private String updateStatus(@PathVariable UUID id) {
+    private Order updateStatus(@PathVariable UUID id) {
         orderService.nextStatus(id);
-        return "Updated Status";
+        return orderService.getOrderById(id).orElseThrow();
     }
 
 }

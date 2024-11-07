@@ -5,6 +5,7 @@ import lombok.Cleanup;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
 import org.springframework.util.AntPathMatcher;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +15,7 @@ import java.io.InputStream;
 
 @RestController
 @RequestMapping("api/images")
+@CrossOrigin(origins = "*")
 public record ImageAPI() {
 
     @GetMapping(

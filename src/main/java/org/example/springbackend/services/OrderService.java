@@ -6,6 +6,7 @@ import org.example.springbackend.repositories.OrderRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -25,6 +26,10 @@ public record OrderService(OrderRepository repository) {
 
     public List<Order> getAllOrders() {
         return repository.findAll();
+    }
+
+    public Optional<Order> getOrderById(UUID id) {
+        return repository.findById(id);
     }
 
     public void nextStatus(UUID uuid) {
