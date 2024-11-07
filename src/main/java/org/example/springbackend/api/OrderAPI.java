@@ -2,6 +2,7 @@ package org.example.springbackend.api;
 
 import org.example.springbackend.domain.Order;
 import org.example.springbackend.services.OrderService;
+import org.example.springbackend.services.WebSocketService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +15,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/orders")
 @CrossOrigin(origins = "*")
-public record OrderAPI(OrderService orderService) {
+public record OrderAPI(OrderService orderService, WebSocketService webSocketService) {
 
     // get in progress orders
     @GetMapping("in_progress")
@@ -42,7 +43,9 @@ public record OrderAPI(OrderService orderService) {
     @PostMapping("/process")
     public Order processOrder(@RequestBody Order order) {
         orderService.processOrder(order);
-        return orderService.saveOrder(order);
+        var newOrder = orderService.saveOrder(order);
+        webSocketService.sendOrdersToClients(orderService.getAllOrders());
+        return newOrder;
     }
 
     @PutMapping("{id}")
