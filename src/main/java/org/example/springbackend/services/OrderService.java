@@ -34,8 +34,8 @@ public record OrderService(OrderRepository repository, WebSocketService webSocke
         return repository.findById(id);
     }
 
-    public void nextStatus(UUID uuid) {
-        repository.findById(uuid).ifPresent(order -> {
+    public void nextStatus(Long id) {
+        repository.findById(id).ifPresent(order -> {
             switch (order.getStatus()) {
                 case IN_PROGRESS:
                     order.setStatus(Status.READY);

@@ -2,8 +2,11 @@ package org.example.springbackend.api;
 
 import org.example.springbackend.domain.Order;
 import org.example.springbackend.services.OrderService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.UUID;
@@ -43,9 +46,10 @@ public record OrderAPI(OrderService orderService) {
     }
 
     @PutMapping("{id}")
-    private Order updateStatus(@PathVariable UUID id) {
+    private Order updateStatus(@PathVariable Long id) {
         orderService.nextStatus(id);
+        var order = orderService.getOrderById(id);
+        if (order.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         return orderService.getOrderById(id).orElseThrow();
     }
-
 }
