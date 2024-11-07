@@ -18,6 +18,7 @@ public class DatabaseSetup {
 
     @Bean
     CommandLineRunner initOrders(CategoryRepository categoryRepository, OrderRepository orderRepository, ProductRepository productRepository) {
+        System.out.println("db setup");
         return args -> {
             var cat = categoryRepository.saveAll(categories);
 
@@ -30,6 +31,7 @@ public class DatabaseSetup {
 
             orderRepository.save(new Order(new UUID(1L, 2L), List.of(pe), Status.IN_PROGRESS));
             orderRepository.save(new Order(new UUID(1L, 2L), List.of(pe, pe2), Status.IN_PROGRESS));
+            orderRepository.save(new Order(new UUID(1L, 2L), List.of(pe2), Status.IN_PROGRESS));
         };
     }
 }

@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public record OrderService(OrderRepository repository) {
+public record OrderService(OrderRepository repository, WebSocketService webSocketService) {
 
     public List<Order> getOrderWithStatusInProgress() {
         return repository.getAllByStatus(Status.IN_PROGRESS);
@@ -33,6 +33,8 @@ public record OrderService(OrderRepository repository) {
     }
 
     public void nextStatus(UUID uuid) {
+        System.out.println(getAllOrders());
+
         repository.findById(uuid).ifPresent(order -> {
             switch (order.getStatus()) {
                 case IN_PROGRESS:
@@ -43,6 +45,12 @@ public record OrderService(OrderRepository repository) {
                     break;
                 case FINISHED:
             }
+
+            repository.save(order);
         });
+
+        System.out.println(getAllOrders());
+
+        webSocketService.sendOrdersToClients(getAllOrders());
     }
 }

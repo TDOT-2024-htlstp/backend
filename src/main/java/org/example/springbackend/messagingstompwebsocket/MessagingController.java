@@ -15,17 +15,10 @@ import java.util.List;
 public record MessagingController(OrderService orderService) {
 
     @MessageMapping("/hello")
-    @SendTo("/topic/greetings")
+    @SendTo("/api/greetings")
     public Greeting greeting(HelloMessage message) throws Exception {
         Thread.sleep(1000); // simulated delay
         return new Greeting("Hello, " + HtmlUtils.htmlEscape(message.getName()) + "!");
     }
 
-//    @MessageMapping("/hello")
-//    @SendTo("/topic/greetings")
-//    public List<Order> greeting(HelloMessage message) throws Exception {
-////        Thread.sleep(1000); // simulated delay
-//        return orderService.getAllOrders();
-////        return new Greeting("Hello, " + HtmlUtils.htmlEscape(message.getName()) + "!");
-//    }
 }
