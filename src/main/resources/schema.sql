@@ -14,7 +14,7 @@ CREATE TABLE categories
 
 CREATE TABLE orders
 (
-    id     UUID NOT NULL,
+    id     BIGINT NOT NULL,
     status VARCHAR(255),
     CONSTRAINT pk_orders PRIMARY KEY (id)
 );
@@ -31,6 +31,7 @@ CREATE TABLE product_entries
     product_id BIGINT,
     order_id   UUID,
     amount     INTEGER                                 NOT NULL,
+    image_path VARCHAR(255)                            NOT NULL,
     CONSTRAINT pk_product_entries PRIMARY KEY (id)
 );
 

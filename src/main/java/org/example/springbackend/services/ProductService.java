@@ -17,4 +17,9 @@ public record ProductService(ProductRepository productRepository) {
         return productRepository.getAllByCategoryIs(id);
     }
 
+    public Product decreaseAmount(Product product, int amount) {
+        var currentProduct = productRepository.findById(product.getId()).orElseThrow();
+        currentProduct.setAmountLeft(currentProduct.getAmountLeft() - amount);
+        return productRepository.save(currentProduct);
+    }
 }

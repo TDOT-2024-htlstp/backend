@@ -2,6 +2,7 @@ package org.example.springbackend.api;
 
 import org.example.springbackend.domain.Order;
 import org.example.springbackend.services.OrderService;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/orders")
+@CrossOrigin("*")
 public record OrderAPI(OrderService orderService) {
 
     // get in progress orders
@@ -34,8 +36,14 @@ public record OrderAPI(OrderService orderService) {
         return orderService.getAllOrders();
     }
 
+    @PostMapping("/process")
+    public Order processOrder(@RequestBody Order order) {
+        orderService.processOrder(order);
+        return orderService.saveOrder(order);
+    }
+
     @PutMapping("{id}")
-    private String updateStatus(@PathVariable UUID id) {
+    private String updateStatus(@PathVariable Long id) {
         orderService.nextStatus(id);
         return "Updated Status";
     }

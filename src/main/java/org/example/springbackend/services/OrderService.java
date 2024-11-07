@@ -1,15 +1,17 @@
 package org.example.springbackend.services;
 
 import org.example.springbackend.domain.Order;
+import org.example.springbackend.domain.ProductEntry;
 import org.example.springbackend.domain.Status;
 import org.example.springbackend.repositories.OrderRepository;
+import org.example.springbackend.repositories.ProductEntryRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
-public record OrderService(OrderRepository repository) {
+public record OrderService(OrderRepository repository, ProductService productService, ProductEntryRepository productEntryRepository) {
 
     public List<Order> getOrderWithStatusInProgress() {
         return repository.getAllByStatus(Status.IN_PROGRESS);
@@ -27,8 +29,8 @@ public record OrderService(OrderRepository repository) {
         return repository.findAll();
     }
 
-    public void nextStatus(UUID uuid) {
-        repository.findById(uuid).ifPresent(order -> {
+    public void nextStatus(Long id) {
+        repository.findById(id).ifPresent(order -> {
             switch (order.getStatus()) {
                 case IN_PROGRESS:
                     order.setStatus(Status.READY);
@@ -39,5 +41,16 @@ public record OrderService(OrderRepository repository) {
                 case FINISHED:
             }
         });
+    }
+
+    public Order saveOrder(Order order) {
+        order.setEntries(productEntryRepository.saveAll(order.getEntries()));
+        return repository.save(order);
+    }
+
+    public void processOrder(Order order) {
+        for (ProductEntry entry : order.getEntries()) {
+            entry.setProduct(productService.decreaseAmount(entry.getProduct(), entry.getAmount()));
+        }
     }
 }
