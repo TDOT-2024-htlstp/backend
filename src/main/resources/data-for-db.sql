@@ -3,7 +3,8 @@
 -- INSERT INTO categories (id, name) VALUES (DEFAULT, 'Schokolade');
 -- INSERT INTO categories (id, name) VALUES (DEFAULT, 'Lutscher');
 
-    INSERT INTO categories (id, name) values (DEFAULT, 'Celebrations');
+    INSERT INTO categories (id, name) values (DEFAULT, 'Celebrations'),
+                                             (DEFAULT, 'Schlecker');
 
 -- Products
 -- INSERT INTO products (id, name, price, amount_left, image_path, category_id)
@@ -22,10 +23,11 @@
 -- VALUES (DEFAULT, 'Nimm 2 Lollipop', 30, 20, 'api/images/nimm2/lolli.png', 3);
 
     INSERT INTO products(id, name, price, amount_left, image_path, category_id)
-    VALUES (DEFAULT, 'Twix', 25, 145, 'api/images/celebrations/twix.png', 1),
-            (DEFAULT, 'Snickers', 25, 145, 'api/images/celebrations/snickers.png', 1),
-            (DEFAULT, 'Mars', 25, 145, 'api/images/celebrations/mars.png', 1),
-            (DEFAULT, 'Bounty', 25, 145, 'api/images/celebrations/bounty.png', 1);
+    VALUES (DEFAULT, 'Twix', 500, 65, 'api/images/celebrations/twix.png', 1),
+            (DEFAULT, 'Snickers', 450, 65, 'api/images/celebrations/snickers.png', 1),
+            (DEFAULT, 'Mars', 400, 65, 'api/images/celebrations/mars.png', 1),
+            (DEFAULT, 'Bounty', 350, 65, 'api/images/celebrations/bounty.png', 1),
+            (DEFAULT, 'Chupa Chups', 900, 27, 'api/images/schlecker/chupa_chups.png', 2);
 
 
 -- Orders
