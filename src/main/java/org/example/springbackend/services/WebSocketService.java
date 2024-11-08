@@ -13,4 +13,9 @@ public record WebSocketService(SimpMessagingTemplate messagingTemplate) {
         messagingTemplate.convertAndSend("/api/orders", orders);
     }
 
+    public void sendOrderToClients(Order order) {
+        messagingTemplate.convertAndSend("/api/order", order);
+    }
+
+
 }
