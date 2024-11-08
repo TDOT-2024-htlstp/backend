@@ -9,7 +9,6 @@ import org.hibernate.proxy.HibernateProxy;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,7 +20,7 @@ import java.util.UUID;
 public class Order {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToMany(cascade = CascadeType.ALL)
@@ -33,10 +32,10 @@ public class Order {
     @Override
     public String toString() {
         return "Order{" +
-                "id=" + id +
-                ", entries=" + entries +
-                ", status=" + status +
-                '}';
+               "id=" + id +
+               ", entries=" + entries +
+               ", status=" + status +
+               '}';
     }
 
     @Override
